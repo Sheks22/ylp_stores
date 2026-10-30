@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YLP Stores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&family=Great+Vibes&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --wine: #640024;
+    --rose: #B2959C;
+    --white: #FAF6F6;
+
+    /* derived tints (still only the 3 theme colours) */
+    --wine-soft: color-mix(in srgb, var(--wine) 8%, var(--white));
+    --wine-line: color-mix(in srgb, var(--wine) 25%, transparent);
+    --text-soft: color-mix(in srgb, var(--wine) 75%, var(--white));
+
+    --serif: "DM Serif Display", Georgia, serif;
+    --sans: "DM Sans", system-ui, sans-serif;
+    --script: "Great Vibes", cursive;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body { font-family: var(--sans); background: var(--white); color: var(--wine); line-height: 1.6; }
+  img, video { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .container { width: min(1100px, 92%); margin-inline: auto; }
+  section { padding: 90px 0; }
+  .alt { background: var(--wine-soft); }
+
+  .eyebrow { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--rose); font-weight: 500; margin-bottom: 14px; }
+  h1, h2 { font-family: var(--serif); font-weight: 400; line-height: 1.1; }
+  h1 { font-size: clamp(40px, 6vw, 64px); margin-bottom: 20px; }
+  h2 { font-size: clamp(30px, 4vw, 42px); margin-bottom: 18px; }
+  p.lead { color: var(--text-soft); max-width: 46ch; }
+  .script { font-family: var(--script); font-size: 34px; color: var(--wine); margin-top: 20px; }
+
+  /* header */
+  header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--white) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--wine-line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; }
+  .logo img { height: 44px; width: auto; }
+  .logo-ph { height: 44px; width: 120px; border: 1.5px dashed var(--rose); border-radius: 8px; display: grid; place-items: center; font: 500 11px var(--sans); letter-spacing: 3px; color: var(--rose); }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a { font-size: 14px; padding-bottom: 4px; border-bottom: 2px solid transparent; transition: .2s; }
+  nav a:hover, nav a.active { border-color: var(--wine); }
+  .burger { display: none; background: none; border: 0; color: var(--wine); font-size: 26px; cursor: pointer; }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 999px; font: 500 14px var(--sans); cursor: pointer; border: 1.5px solid var(--wine); transition: .2s; }
+  .btn-solid { background: var(--wine); color: var(--white); }
+  .btn-solid:hover { background: color-mix(in srgb, var(--wine) 85%, black); }
+  .btn-outline { background: transparent; color: var(--wine); }
+  .btn-outline:hover { background: var(--wine); color: var(--white); }
+  .btn-rose { background: var(--rose); border-color: var(--rose); color: var(--white); }
+  .btn-rose:hover { filter: brightness(.92); }
+  .btn svg, .icon svg { width: 18px; height: 18px; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+
+  /* layout */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .split.reverse > :first-child { order: 2; }
+
+  /* media placeholders */
+  .media { border-radius: var(--radius); overflow: hidden; background: var(--wine-soft); border: 1.5px dashed var(--rose); aspect-ratio: 4/3; display: grid; place-items: center; color: var(--rose); font-size: 14px; text-align: center; position: relative; }
+  .media img, .media video { width: 100%; height: 100%; object-fit: cover; }
+  .media.filled { border: 0; box-shadow: 0 18px 40px color-mix(in srgb, var(--wine) 18%, transparent); }
+  .play-ph { width: 64px; height: 64px; border-radius: 50%; background: var(--wine); color: var(--white); display: grid; place-items: center; margin: 0 auto 10px; }
+
+  /* journals */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; margin-top: 40px; }
+  .card { background: var(--white); border: 1px solid var(--wine-line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .card .media { aspect-ratio: 1/1; border-radius: 0; box-shadow: none; }
+  .card-body { padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+  .card h3 { font-family: var(--serif); font-weight: 400; font-size: 24px; }
+  .card p { color: var(--text-soft); font-size: 14px; }
+  .center { text-align: center; }
+  .center p.lead { margin-inline: auto; }
+
+  /* connect */
+  .divider { width: 60px; height: 2px; background: var(--wine-line); margin: 0 auto 20px; }
+
+  /* footer */
+  footer { background: var(--wine); color: var(--white); padding: 40px 0; }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot .tags { display: flex; gap: 14px; align-items: center; font-size: 14px; }
+  .foot .tags i { width: 50px; height: 1px; background: var(--rose); display: inline-block; }
+  .foot .right { text-align: right; font-size: 12px; color: var(--rose); }
+  .foot .icons { display: flex; gap: 14px; justify-content: flex-end; margin-bottom: 8px; color: var(--white); }
+
+  @media (max-width: 800px) {
+    section { padding: 60px 0; }
+    .split, .split.reverse { grid-template-columns: 1fr; gap: 32px; }
+    .split.reverse > :first-child { order: 0; }
+    .burger { display: block; }
+    nav ul { display: none; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--white); border-bottom: 1px solid var(--wine-line); }
+    nav ul.open { display: flex; }
+    nav li a { display: block; padding: 16px 4%; border: 0; }
+    .foot, .foot .right { justify-content: center; text-align: center; }
+    .foot .icons { justify-content: center; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a href="#home" class="logo" id="logo"></a>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+    <nav><ul id="navList"></ul></nav>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home">
+    <div class="container split">
+      <div>
+        <p class="eyebrow" id="hero-eyebrow"></p>
+        <h1 id="hero-title"></h1>
+        <p class="lead" id="hero-text"></p>
+        <div class="btn-row"><button class="btn btn-solid" id="watchBtn"></button></div>
+        <p id="follow-label" style="margin-top:28px;font-size:14px;color:var(--text-soft)"></p>
+        <div class="btn-row" id="hero-socials"></div>
+      </div>
+      <div class="media" id="video-box"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="alt">
+    <div class="container split reverse">
+      <div>
+        <p class="eyebrow" id="about-eyebrow"></p>
+        <h2 id="about-title"></h2>
+        <p class="lead" id="about-text"></p>
+        <p class="script" id="about-script"></p>
+      </div>
+      <div class="media" id="about-image"></div>
+    </div>
+  </section>
+
+  <!-- JOURNALS -->
+  <section id="journals">
+    <div class="container center">
+      <p class="eyebrow" id="j-eyebrow"></p>
+      <h2 id="j-title"></h2>
+      <p class="lead" id="j-text"></p>
+      <div class="grid" id="j-grid" style="text-align:left"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="alt">
+    <div class="container center">
+      <h2 id="c-title"></h2>
+      <div class="divider"></div>
+      <p class="lead" id="c-text"></p>
+      <div class="btn-row" id="c-socials" style="justify-content:center;margin-top:28px"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <div class="logo" id="foot-logo"></div>
+    <div class="tags" id="foot-tags"></div>
+    <div class="right">
+      <div class="icons" id="foot-icons"></div>
+      <div id="copyright"></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   EDIT EVERYTHING HERE. Leave image/video strings empty ("")
+   to show a placeholder. Use file paths like "images/hero.jpg".
+   ============================================================ */
+const SITE = {
+  brand: {
+    name: "YLP Stores",
+    logoImage: "images/ylp_logo.png",   // e.g. "images/logo.png"  (shows in header + footer, and is used as the favicon)
+    favicon: "images/ylp_logo.png",     // optional: separate square icon, e.g. "images/favicon.png". Leave "" to reuse the logo.
+  },
+
+  nav: [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Our Journals", href: "#journals" },
+    { label: "Contact", href: "#contact" },
+  ],
+
+  hero: {
+    eyebrow: "Faith · Growth · Purpose",
+    title: "Welcome to YLP Stores!",
+    text: "A Christian lifestyle brand providing practical faith-centered resources for consistency and intentional spiritual growth.",
+    watchButton: "Watch Our Introductory Video",
+    followLabel: "Follow us on social media",
+    video: "",            // e.g. "videos/intro.mp4"
+    videoPoster: "",      // optional thumbnail image, e.g. "images/video-poster.jpg"
+    videoPlaceholder: "Intro video goes here (1:23)",
+  },
+
+  social: {
+    instagram: "https://www.instagram.com/ylp.stores?exln=emtkbnh5ZDQxYnE5",   
+    tiktok: "https://www.tiktok.com/@ylp.stores?_r=1&_t=ZS-9Ay4ADp4Imy",        
+  },
+
+  about: {
+    eyebrow: "About YLP Stores",
+    title: "More than just journals — it's a lifestyle.",
+    text: "At YLP Stores, we believe in the power of intentional living and a deeper connection with God. Our products are designed to help you stay consistent, grow spiritually, and live with purpose — one page at a time.",
+    script: "Grow with intention. Live with purpose.",
+    image: "images/journal1.jpg",
+    imagePlaceholder: "About image goes here",
+  },
+
+  journals: {
+    eyebrow: "Our Journals",
+    title: "Made for your journey",
+    text: "Thoughtfully designed journals to help you stay consistent in your walk with God.",
+    items: [
+      { name: "My Growth Journal", description: "Track your spiritual growth, goals and reflections.", image: "images/journal3.jpg" },
+      { name: "My Sermon Note Journal", description: "Capture sermons, scriptures and takeaways.", image: "images/journal4.jpg" },
+    ],
+  },
+
+  contact: {
+    title: "Let's Stay Connected",
+    text: "Follow us on Instagram and TikTok for updates, inspiration, product highlights and more.",
+    instagramLabel: "Follow on Instagram",
+    tiktokLabel: "Follow on TikTok",
+  },
+
+  footer: {
+    tags: ["Faith", "Growth", "Purpose"],
+    copyright: "© 2025 YLP Stores. All rights reserved.",
+  },
+};
+
+/* ================= RENDERING (no need to edit) ================= */
+const $ = (id) => document.getElementById(id);
+const ICON = {
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>`,
+  tiktok: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3v10.5a4.5 4.5 0 1 1-4.5-4.5"/><path d="M15 3c.3 2.5 2 4.2 4.5 4.5"/></svg>`,
+  play: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`,
+  arrow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`,
+};
+
+function mediaInto(el, src, placeholder, alt = "") {
+  if (src) { el.classList.add("filled"); el.innerHTML = `<img src="${src}" alt="${alt}">`; }
+  else el.textContent = placeholder || "Image placeholder";
+}
+
+function logoHTML(b) {
+  return b.logoImage
+    ? `<img src="${b.logoImage}" alt="${b.name} logo">`
+    : `<span class="logo-ph">LOGO</span>`;
+}
+
+function setFavicon(b) {
+  const href = b.favicon || b.logoImage;
+  if (!href) return;
+  let link = document.querySelector('link[rel="icon"]');
+  if (!link) { link = document.createElement("link"); link.rel = "icon"; document.head.appendChild(link); }
+  link.href = href;
+}
+
+function render() {
+  const S = SITE;
+  document.title = S.brand.name;
+  setFavicon(S.brand);
+  $("logo").innerHTML = logoHTML(S.brand);
+  $("foot-logo").innerHTML = logoHTML(S.brand);
+
+  $("navList").innerHTML = S.nav.map(n => `<li><a href="${n.href}">${n.label}</a></li>`).join("");
+
+  // hero
+  $("hero-eyebrow").textContent = S.hero.eyebrow;
+  $("hero-title").textContent = S.hero.title;
+  $("hero-text").textContent = S.hero.text;
+  $("watchBtn").innerHTML = `${ICON.play} ${S.hero.watchButton}`;
+  $("follow-label").textContent = S.hero.followLabel;
+  $("hero-socials").innerHTML =
+    `<a class="btn btn-outline" href="${S.social.instagram}" target="_blank" rel="noopener">${ICON.instagram} Instagram</a>
+     <a class="btn btn-outline" href="${S.social.tiktok}" target="_blank" rel="noopener">${ICON.tiktok} TikTok</a>`;
+
+  const vb = $("video-box");
+  if (S.hero.video) {
+    vb.classList.add("filled");
+    vb.innerHTML = `<video id="introVideo" controls playsinline ${S.hero.videoPoster ? `poster="${S.hero.videoPoster}"` : ""} src="${S.hero.video}"></video>`;
+  } else {
+    vb.innerHTML = `<div><div class="play-ph">${ICON.play}</div>${S.hero.videoPlaceholder}</div>`;
+  }
+  $("watchBtn").onclick = () => {
+    vb.scrollIntoView({ behavior: "smooth", block: "center" });
+    const v = $("introVideo"); if (v) v.play();
+  };
+
+  // about
+  $("about-eyebrow").textContent = S.about.eyebrow;
+  $("about-title").textContent = S.about.title;
+  $("about-text").textContent = S.about.text;
+  $("about-script").textContent = S.about.script;
+  mediaInto($("about-image"), S.about.image, S.about.imagePlaceholder, S.about.title);
+
+  // journals
+  const J = S.journals;
+  $("j-eyebrow").textContent = J.eyebrow;
+  $("j-title").textContent = J.title;
+  $("j-text").textContent = J.text;
+  $("j-grid").innerHTML = J.items.map((it, i) => `
+    <article class="card">
+      <div class="media" data-i="${i}"></div>
+      <div class="card-body">
+        <h3>${it.name}</h3>
+        <p>${it.description}</p>
+      </div>
+    </article>`).join("");
+  document.querySelectorAll("#j-grid .media").forEach(m => {
+    const it = J.items[m.dataset.i];
+    mediaInto(m, it.image, `${it.name} image`, it.name);
+  });
+
+  // contact
+  const C = S.contact;
+  $("c-title").textContent = C.title;
+  $("c-text").textContent = C.text;
+  $("c-socials").innerHTML =
+    `<a class="btn btn-solid" href="${S.social.instagram}" target="_blank" rel="noopener">${ICON.instagram} ${C.instagramLabel} ${ICON.arrow}</a>
+     <a class="btn btn-solid" href="${S.social.tiktok}" target="_blank" rel="noopener">${ICON.tiktok} ${C.tiktokLabel} ${ICON.arrow}</a>`;
+
+  // footer
+  $("foot-tags").innerHTML = `<i></i>${S.footer.tags.join(" · ")}<i></i>`;
+  $("foot-icons").innerHTML =
+    `<a class="icon" href="${S.social.instagram}" target="_blank" rel="noopener" aria-label="Instagram">${ICON.instagram}</a>
+     <a class="icon" href="${S.social.tiktok}" target="_blank" rel="noopener" aria-label="TikTok">${ICON.tiktok}</a>`;
+  $("copyright").textContent = S.footer.copyright;
+}
+render();
+
+/* mobile menu */
+$("burger").onclick = () => $("navList").classList.toggle("open");
+$("navList").onclick = () => $("navList").classList.remove("open");
+
+/* highlight active nav link while scrolling */
+const links = [...document.querySelectorAll("#navList a")];
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+  });
+}, { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("main section").forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
